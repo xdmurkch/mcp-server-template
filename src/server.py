@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 import os
 from fastmcp import FastMCP
-from api_integrations import MultiPlatformAPI, APIError
+from src.api_integrations import MultiPlatformAPI, APIError
 
 mcp = FastMCP("Multi-Platform Friend Status MCP Server")
 api = MultiPlatformAPI()
+
+# Expose the ASGI app for uvicorn
+app = mcp
 
 @mcp.tool(description="Greet a user by name with a welcome message from the MCP server")
 def greet(name: str) -> str:
