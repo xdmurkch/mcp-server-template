@@ -1,13 +1,21 @@
 #!/usr/bin/env python3
 import os
+import sys
+from pathlib import Path
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from fastmcp import FastMCP
-from src.api_integrations import MultiPlatformAPI, APIError
+
+# Handle both direct execution and module import
+try:
+    from api_integrations import MultiPlatformAPI, APIError
+except ImportError:
+    from src.api_integrations import MultiPlatformAPI, APIError
 
 mcp = FastMCP("Multi-Platform Friend Status MCP Server")
 api = MultiPlatformAPI()
-
-# Expose the ASGI app for uvicorn
-app = mcp
 
 @mcp.tool(description="Greet a user by name with a welcome message from the MCP server")
 def greet(name: str) -> str:
